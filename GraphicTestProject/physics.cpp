@@ -22,8 +22,12 @@ glm::vec3 Object::calcGravity()
 	glm::vec3 rN (0.0f,0.0f,0.0f);
 	while(i < m_Universe->getUniArr().size())
 	{
-		if(this->getID() != m_Universe->getUniArr()[i]->getID())
-			rN.x +=0.00001;
+		if (this->getID() != m_Universe->getUniArr()[i]->getID())
+		{
+			rN.x += (m_Universe->getUniArr()[i]->getPosition().x) * .0000000000667 * ((this->m_Mass * m_Universe->getUniArr()[i]->m_Mass) / (pow(m_Universe->getUniArr()[i]->getPosition().x - this->getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - this->getPosition().y, 2)));
+			rN.y += (m_Universe->getUniArr()[i]->getPosition().y) * .0000000000667 * ((this->m_Mass * m_Universe->getUniArr()[i]->m_Mass) / (pow(m_Universe->getUniArr()[i]->getPosition().x - this->getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - this->getPosition().y, 2)));
+		}
+			
 		i++;
 	}
 	return rN;

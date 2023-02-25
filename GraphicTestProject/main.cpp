@@ -20,7 +20,7 @@ unsigned int EBO;
 
 Universe universe;
 
-Object obj = Object(&universe, glm::vec3(0.0f,0.0f,0.0f), 10);
+Object obj = Object(&universe, glm::vec3(-0.5f,0.5f,0.0f), 10);
 Object obj1 = Object(&universe, glm::vec3(0.0f,0.0f,0.0f), 10);
 
 void createCircle(float radius, int vertexCount)
@@ -86,7 +86,7 @@ int main()
     program.link();
     program.addUniform("uPos");
 
-    createCircle(.1, 36);
+    createCircle(.01, 36);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -114,7 +114,7 @@ int main()
         glBindVertexArray(VAO);
         program.use();
         universe.start();
-        std::cout << obj.getPosition().x<<std::endl;
+        std::cout << obj.getPosition().y<<std::endl;
         DrawObject(obj, program);
         DrawObject(obj1, program);
         glfwSwapBuffers(window);
