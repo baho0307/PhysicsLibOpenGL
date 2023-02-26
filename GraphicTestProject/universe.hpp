@@ -11,6 +11,7 @@ class Universe
 public:
 	
 	Universe();
+	void createObjects(unsigned long n);
 	unsigned long addObject(Object* obj);
 	std::vector<Object*> getUniArr();
 	void start();

@@ -11,6 +11,8 @@ class Object
 {
 	public:
 
+		Object();
+
 		Object(Universe* universe, glm::vec3 pos, float mass, glm::vec3 v = glm::vec3(0.0f, 0.0f, 0.0f));
 
 		glm::vec3 getPosition();
@@ -21,6 +23,8 @@ class Object
 		void start();
 
 		void move(glm::vec3 v);
+
+		void calcVelocity();
 
 	private:
 
@@ -33,6 +37,9 @@ class Object
 		Universe* m_Universe;
 
 		glm::vec3 calcGravity();
+
+		std::vector<Object*> isColliding();
+		
 };
 
 #endif // !PHYSICS_HPP

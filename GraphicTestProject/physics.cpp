@@ -1,6 +1,11 @@
 #include"physics.hpp"
 #include<glm/vec3.hpp>
 
+Object::Object()
+{
+
+}
+
 Object::Object(Universe* universe, glm::vec3 pos, float mass, glm::vec3 v)
 {
 	m_Universe = universe;
@@ -22,11 +27,12 @@ glm::vec3 Object::calcGravity()
 	glm::vec3 rN (0.0f,0.0f,0.0f);
 	while(i < m_Universe->getUniArr().size())
 	{
-		if (this->getID() != m_Universe->getUniArr()[i]->getID())
+		if (getID() != m_Universe->getUniArr()[i]->getID() && sqrt(pow(m_Universe->getUniArr()[i]->getPosition().x - getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - getPosition().y, 2))>.01)
 		{
-			rN.x += (m_Universe->getUniArr()[i]->getPosition().x) * .0000000000667 * ((this->m_Mass * m_Universe->getUniArr()[i]->m_Mass) / (pow(m_Universe->getUniArr()[i]->getPosition().x - this->getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - this->getPosition().y, 2)));
-			rN.y += (m_Universe->getUniArr()[i]->getPosition().y) * .0000000000667 * ((this->m_Mass * m_Universe->getUniArr()[i]->m_Mass) / (pow(m_Universe->getUniArr()[i]->getPosition().x - this->getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - this->getPosition().y, 2)));
+			rN.x += (m_Universe->getUniArr()[i]->getPosition().x - getPosition().x) * .0000000000667 * ((m_Mass * m_Universe->getUniArr()[i]->m_Mass) / sqrt(pow(m_Universe->getUniArr()[i]->getPosition().x - getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - getPosition().y, 2)));
+			rN.y += (m_Universe->getUniArr()[i]->getPosition().y - getPosition().y) * .0000000000667 * ((m_Mass * m_Universe->getUniArr()[i]->m_Mass) / sqrt(pow(m_Universe->getUniArr()[i]->getPosition().x - getPosition().x, 2) + pow(m_Universe->getUniArr()[i]->getPosition().y - getPosition().y, 2)));
 		}
+		
 			
 		i++;
 	}
@@ -48,9 +54,14 @@ unsigned long Object::getID()
 	return m_ID;
 }
 
-void Object::start()
+void Object::calcVelocity()
 {
 	m_N = calcGravity();
 	m_V += (m_N / m_Mass);
+}
+
+void Object::start()
+{
 	this->move(m_V);
 }
+

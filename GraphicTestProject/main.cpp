@@ -20,8 +20,8 @@ unsigned int EBO;
 
 Universe universe;
 
-Object obj = Object(&universe, glm::vec3(-0.5f,0.5f,0.0f), 10);
-Object obj1 = Object(&universe, glm::vec3(0.0f,0.0f,0.0f), 10);
+std::vector<Object> objs (10000);
+
 
 void createCircle(float radius, int vertexCount)
 {
@@ -50,9 +50,9 @@ void createCircle(float radius, int vertexCount)
     }
 }
 
-void DrawObject(Object obj, ShaderProgram& program)
+void DrawObject(Object* obj, ShaderProgram& program)
 {
-    program.setVec3("uPos",obj.getPosition());
+    program.setVec3("uPos",obj->getPosition());
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
@@ -87,6 +87,8 @@ int main()
     program.addUniform("uPos");
 
     createCircle(.01, 36);
+    
+    universe.createObjects(1000);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -104,8 +106,8 @@ int main()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
-
-    
+    int i;
+    i = 0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -113,10 +115,15 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
         glBindVertexArray(VAO);
         program.use();
+        std::cout << universe.getUniArr()[0]->getPosition().y << std::endl;
         universe.start();
-        std::cout << obj.getPosition().y<<std::endl;
-        DrawObject(obj, program);
-        DrawObject(obj1, program);
+        
+        while (i < universe.getUniArr().size())
+        {
+            DrawObject(universe.getUniArr()[i], program);
+            i++;
+        }
+        i = 0;
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
