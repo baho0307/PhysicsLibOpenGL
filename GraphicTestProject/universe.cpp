@@ -8,7 +8,9 @@ Universe::Universe()
 
 unsigned long Universe::addObject(Object* obj)
 {
+	
 	m_UniverseArr.push_back(obj);
+	//m_UniversePosMtx[m_ID] = obj->getPosition();
 	m_ID++;
 	return m_ID;
 }
@@ -44,13 +46,13 @@ void Universe::createObjects(unsigned long n)
 	i = 0;
 	j = 0;
 
-	while (j < sqrt(n))
+	while (j < (float)sqrt(n))
 	{
-		while (i < sqrt(n))
-		{
-			new Object(this, glm::vec3(i / sqrt(n), j / sqrt(n), 0.0f), 100000);
-			i++;
-		}
+		
+
+		new Object(this, glm::vec3((i / sqrt(n)) - .5, j*0.1-.5, 0.0f), 10);
+
+
 		i = 0;
 		j++;
 	}

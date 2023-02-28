@@ -9,37 +9,40 @@ class Universe;
 
 class Object
 {
-	public:
+public:
 
-		Object();
+	Object(Universe* universe, glm::vec3 pos, float mass, glm::vec3 v = glm::vec3(0.0f, 0.0f, 0.0f));
+	Object();
 
-		Object(Universe* universe, glm::vec3 pos, float mass, glm::vec3 v = glm::vec3(0.0f, 0.0f, 0.0f));
+	glm::vec3 getPosition();
+	glm::vec3 getVelocity();
+	float getMass();
+	void setPosition(glm::vec3 nPos);
 
-		glm::vec3 getPosition();
-		void setPosition(glm::vec3 nPos);
+	unsigned long getID();
 
-		unsigned long getID();
+	void start();
 
-		void start();
+	void move(glm::vec3 v);
 
-		void move(glm::vec3 v);
+	void calcVelocity();
 
-		void calcVelocity();
+private:
 
-	private:
+	glm::vec3 m_Pos;
+	glm::vec3 m_N;
+	glm::vec3 m_V;
+	float m_Mass;
+	unsigned int m_ID;
 
-		glm::vec3 m_Pos;
-		glm::vec3 m_N;
-		glm::vec3 m_V;
-		float m_Mass;
-		unsigned int m_ID;
+	Universe* m_Universe;
 
-		Universe* m_Universe;
+	glm::vec3 calcGravity();
 
-		glm::vec3 calcGravity();
+	float objDistance(Object* obj);
 
-		std::vector<Object*> isColliding();
-		
+	std::vector<Object*> isColliding();
+
 };
 
 #endif // !PHYSICS_HPP

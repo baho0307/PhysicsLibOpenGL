@@ -9,6 +9,7 @@
 #include<vector>
 #include"physics.hpp"
 
+
 std::vector<glm::vec3> vertices;
 std::vector<unsigned int> indices;
 
@@ -21,7 +22,6 @@ unsigned int EBO;
 Universe universe;
 
 std::vector<Object> objs (10000);
-
 
 void createCircle(float radius, int vertexCount)
 {
@@ -61,7 +61,7 @@ int main()
 	if (!glfwInit())
 		return -1;
 
-	GLFWwindow* window = glfwCreateWindow(800, 800, "Physics", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(1440, 1440, "Physics", NULL, NULL);
 
     if (window == NULL)
     {
@@ -86,9 +86,9 @@ int main()
     program.link();
     program.addUniform("uPos");
 
-    createCircle(.01, 36);
+    createCircle(.005, 36);
     
-    universe.createObjects(1000);
+    universe.createObjects(2);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -108,7 +108,6 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW);
     int i;
     i = 0;
-
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
